@@ -1,0 +1,7 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+	1) notify-send "Calendar" "$(cal | sed "s|..7m|<span color='$(xrdb -get color3)'>|;s|..27m|</span>|")" ;;
+esac
+
+date +"󰃭 %F %R"

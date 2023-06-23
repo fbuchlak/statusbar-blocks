@@ -1,0 +1,39 @@
+#!/bin/bash
+
+block_description () {
+	echo "
+Alsa input (mic) device \"controller\"
+
+<b>Description:</b>
+Displays and controls status [cap/nocap] of input device.
+
+<b>Buttons:</b>
+      1 = nocap (mute) device
+      3 = cap (unmute) device
+$(block_description_buttons_default)
+
+<b>Parameters:</b>
+\$1 = controlled device; e.g. \"Capture\"
+"
+}
+
+source "sb-0-init" 2> /dev/null
+
+device="${1:-Capture}"
+
+case $BLOCK_BUTTON in
+	1) amixer -q sset $device nocap ;;
+	3) if amixer sget $device | grep -q off ; then
+		amixer -q sset $device cap
+		notify-send -u critical "Output [$device]" "Device started capturing" 
+	fi
+	;;
+esac
+
+if amixer sget $device | grep -q off ; then 
+	icon=🤫; 
+else 
+	icon=🎙; 
+fi
+
+echo $icon

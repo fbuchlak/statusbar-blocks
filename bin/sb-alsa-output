@@ -1,0 +1,55 @@
+#!/bin/bash
+
+block_description () {
+	echo "
+Alsa output (volume) device \"controller\"
+
+<b>Description:</b>
+Displays and controls volume percentage levels of output device.
+
+<b>Buttons:</b>
+      1 = increase volume by \$2% and unmute device
+      2 = toggle device state [on/off]
+      3 = decrease volume by \$2%
+      4 = increase volume by 1%
+      5 = decrease volume by 1%
+$(block_description_buttons_default)
+
+<b>Parameters:</b>
+\$1 = controlled device; e.g. \"Master\"
+\$2 = append string to output; e.g. \" [🎧]\"
+\$3 = step [%] for increase/descrease volume
+"
+}
+
+source "sb-0-init" 2> /dev/null
+
+device="${1:-Master}"
+
+if [[ -n $BLOCK_BUTTON ]]; then
+	step="${3:-25}"
+
+	case $BLOCK_BUTTON in
+		1) amixer -q sset $device "$step%+" unmute ;;
+		2) amixer -q sset $device toggle ;;
+		3) amixer -q sset $device "$step%-" ;;
+		4) amixer -q sset $device 1%+ ;;
+		5) amixer -q sset $device 1%- ;;
+	esac
+fi
+
+vol=$(awk -F "[][]" '/%/ { print 0+$2; exit; }' <(amixer sget $device)) 
+volicon=🔇;
+
+if ! amixer sget $device | grep -q off ; then
+	case 1 in
+		$((vol >= 75)) ) volicon=📢 ;;
+		$((vol >= 50)) ) volicon=🔊 ;;
+		$((vol >= 25)) ) volicon=🔉 ;;
+		$((vol >= 1)) ) volicon=🔈 ;;
+		* ) amixer -q sset $device mute ;;
+	esac
+fi
+
+printf "%s %03s%%%s\n" "$volicon" "$vol" "$2"
+

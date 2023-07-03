@@ -22,7 +22,7 @@ block_minimize_toggle () {
 }
 
 block_is_minimized () {
-	[ -f "$(dirname "$0")/../.minimized/$(basename $0)" ] 
+	[ -f "$(dirname "$0")/../.minimized/$(basename $0)" ]
 }
 
 case $BLOCK_BUTTON in

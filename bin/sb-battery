@@ -13,7 +13,7 @@ $(block_description_buttons_default 1)
 "
 }
 
-source "sb-0-init" 
+source "$(dirname "$0")/../helpers" 2> /dev/null
 
 bstatus () {
 	dest=/tmp/sb-battery-dumpstatus
@@ -29,7 +29,7 @@ case $BLOCK_BUTTON in
 	3) notify-send "Battery status" "$(bstatus)" ;;
 esac
 
-is_minimized=block_is_minimized || false 
+is_minimized=block_is_minimized || false
 for battery in /sys/class/power_supply/BAT?*; do
 	[ -n "$bat_status" ] && printf " | "
 

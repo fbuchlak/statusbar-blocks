@@ -17,7 +17,7 @@ $(block_description_buttons_default)
 "
 }
 
-source "sb-0-init" 2> /dev/null
+source "$(dirname "$0")/../helpers" 2> /dev/null
 
 device="${1:-Capture}"
 

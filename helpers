@@ -1,32 +1,32 @@
 #!/bin/bash
 
 block_description_buttons_default () {
-	echo "MOD + 1 = open source code of this block"
-	[[ -n $block_can_minimize ]] && echo "MOD + 2 = toggle block \"minimize\" status"
-	echo "MOD + 3 = show description of this block"
+    echo "MOD + 1 = open source code of this block"
+    [[ -n $block_can_minimize ]] && echo "MOD + 2 = toggle block \"minimize\" status"
+    echo "MOD + 3 = show description of this block"
 }
 
 block_description_default () {
-	echo "<b>Buttons</b>\n$(block_description_buttons_default)"
+    echo "<b>Buttons</b>\n$(block_description_buttons_default)"
 }
 
 block_minimize_toggle () {
-	dir="$(dirname "$0")/../.minimized"
-	file=$(basename "$0")
+    dir="$(dirname "$0")/../.minimized"
+    file=$(basename "$0")
 
-	if [[ -f "$dir/$file" ]] ; then
-		rm "$dir/$file"
-	else
-		touch "$dir/$file"
-	fi
+    if [[ -f "$dir/$file" ]] ; then
+        rm "$dir/$file"
+    else
+        touch "$dir/$file"
+    fi
 }
 
 block_is_minimized () {
-	[ -f "$(dirname "$0")/../.minimized/$(basename $0)" ]
+    [ -f "$(dirname "$0")/../.minimized/$(basename "$0")" ]
 }
 
 case $BLOCK_BUTTON in
-	11) "$TERMINAL" -e "$EDITOR" "$0" ;;
-	12) [[ -n $block_can_minimize ]] && block_minimize_toggle ;;
-	13) notify-send "❓ $(basename $0) [statusbar block]" "$(block_description || block_description_default)" ;;
+    11) "$TERMINAL" -e "$EDITOR" "$0" ;;
+    12) [[ -n $block_can_minimize ]] && block_minimize_toggle ;;
+    13) notify-send "❓ $(basename "$0") [statusbar block]" "$(block_description || block_description_default)" ;;
 esac

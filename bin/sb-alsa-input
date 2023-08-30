@@ -1,7 +1,7 @@
 #!/bin/bash
 
 block_description () {
-	echo "
+    echo "
 Alsa input (mic) device \"controller\"
 
 <b>Description:</b>
@@ -14,7 +14,7 @@ $(block_description_buttons_default)
 
 <b>Parameters:</b>
 \$1 = controlled device; e.g. \"Capture\"
-"
+    "
 }
 
 source "$(dirname "$0")/../helpers" 2> /dev/null
@@ -22,18 +22,18 @@ source "$(dirname "$0")/../helpers" 2> /dev/null
 device="${1:-Capture}"
 
 case $BLOCK_BUTTON in
-	1) amixer -q sset $device nocap ;;
-	3) if amixer sget $device | grep -q off ; then
-		amixer -q sset $device cap
-		notify-send -u critical "Output [$device]" "Device started capturing" 
-	fi
-	;;
+    1) amixer -q sset "$device" nocap ;;
+    3) if amixer sget "$device" | grep -q off ; then
+            amixer -q sset "$device" cap
+            notify-send -u critical "Output [$device]" "Device started capturing"
+        fi
+        ;;
 esac
 
-if amixer sget $device | grep -q off ; then 
-	icon=🤫; 
-else 
-	icon=🎙; 
+if amixer sget "$device" | grep -q off ; then
+    icon=🤫;
+else
+    icon=🎙;
 fi
 
 echo $icon

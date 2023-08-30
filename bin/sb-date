@@ -1,7 +1,7 @@
 #!/bin/bash
 
 block_description () {
-	echo "
+    echo "
 <b>Description</b>
 Displays current time
 
@@ -9,14 +9,14 @@ Displays current time
       1 = show date details
       3 = show calendar
 $(block_description_buttons_default)
-"
+    "
 }
 
 source "$(dirname "$0")/../helpers" 2> /dev/null
 
 case $BLOCK_BUTTON in
-	1) notify-send "⏱️ Date detail" "\n$(date +"Date: %F%nTime: %T%nISO Week: %V%nTimestamp: %s")" ;;
-	3) notify-send "🗓️ Calendar" "\n$(cal -m --color=always | sed "s|..7m|<span color='$(xrdb -get color3)'>|;s|..27m|</span>|")" ;;
+    1) notify-send "⏱️ Date detail" "\n$(date +"Date: %F%nTime: %T%nISO Week: %V%nTimestamp: %s")" ;;
+    3) notify-send "🗓️ Calendar" "\n$(cal -m --color=always | sed "s|..7m|<span color='$(xrdb -get color3)'>|;s|..27m|</span>|")" ;;
 esac
 
 date +"📅 %R"

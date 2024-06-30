@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 block_description_buttons_default () {
     echo "MOD + 1 = open source code of this block"

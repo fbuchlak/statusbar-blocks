@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 block_can_minimize=1
 
